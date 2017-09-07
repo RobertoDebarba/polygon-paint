@@ -20,9 +20,9 @@ public class Frame extends JFrame{
 	private int janelaLargura  = 400, janelaAltura = 400;
 
 	
-	public Frame() {		
+	public Frame() {
 		// Cria o frame.
-		super("CG-N2_BemVindo");   
+		super("CG-N3_PolygonPaint");
 		setBounds(300,250,janelaLargura,janelaAltura+22);  // 400 + 22 da borda do titulo da janela
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
@@ -43,6 +43,8 @@ public class Frame extends JFrame{
 		add(canvas,BorderLayout.CENTER);
 		canvas.addGLEventListener(renderer);        
 		canvas.addKeyListener(renderer);
+		canvas.addMouseListener(renderer);
+		canvas.addMouseMotionListener(renderer);
 		canvas.requestFocus();			
 	}		
 	

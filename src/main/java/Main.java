@@ -10,19 +10,15 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
-public class Main implements GLEventListener, KeyListener {
+public class Main implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
     private GL gl;
     private GLU glu;
     private GLAutoDrawable glDrawable;
     private Ponto4D pto1 = new Ponto4D(0.0, 0.0, 0.0, 1.0);
     private Ponto4D pto2 = new Ponto4D(200.0, 200.0, 0.0, 1.0);
-    private float left = -400.0f;
-    private float right = 400.0f;
-    private float down = -400.0f;
-    private float top = 400.0f;
+    private Camera camera = new Camera(-400.0f, 400.0f, -400.0f, 400.0f);
 
     private float horizontal = 0;
     private float raio = 100;
@@ -44,7 +40,7 @@ public class Main implements GLEventListener, KeyListener {
 
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
-        glu.gluOrtho2D(left, right, down, top);
+        glu.gluOrtho2D(camera.getLeft(), camera.getRight(), camera.getDown(), camera.getTop());
 
         SRU();
 
@@ -65,54 +61,54 @@ public class Main implements GLEventListener, KeyListener {
         System.out.println(" --- keyPressed ---");
         switch (e.getKeyCode()) {
             case KeyEvent.VK_I:
-                if (top <= 50) break;
+                if (camera.getTop() <= 50) break;
 
-                top -= 10;
-                down += 10;
-                left += 10;
-                right -= 10;
+                camera.setTop(camera.getTop()-10);
+                camera.setDown(camera.getDown()+10);
+                camera.setLeft(camera.getLeft()+10);
+                camera.setRight(camera.getRight()-10);
                 glDrawable.display();
                 break;
 
             case KeyEvent.VK_O:
-                if (top >= 680) break;
+                if (camera.getTop() >= 680) break;
 
-                top += 10;
-                down -= 10;
-                left -= 10;
-                right += 10;
+                camera.setTop(camera.getTop()+10);
+                camera.setDown(camera.getDown()-10);
+                camera.setLeft(camera.getLeft()-10);
+                camera.setRight(camera.getRight()+10);
                 glDrawable.display();
                 break;
 
             case KeyEvent.VK_E:
-                if (top >= 680) break;
+                if (camera.getTop() >= 680) break;
 
-                left -= 10;
-                right -= 10;
+                camera.setLeft(camera.getLeft()-10);
+                camera.setRight(camera.getRight()-10);
                 glDrawable.display();
                 break;
 
             case KeyEvent.VK_D:
-                if (top >= 680) break;
+                if (camera.getTop() >= 680) break;
 
-                left += 10;
-                right += 10;
+                camera.setLeft(camera.getLeft()+10);
+                camera.setRight(camera.getRight()+10);
                 glDrawable.display();
                 break;
 
             case KeyEvent.VK_C:
-                if (top >= 680) break;
+                if (camera.getTop() >= 680) break;
 
-                top += 10;
-                down += 10;
+                camera.setTop(camera.getTop()+10);
+                camera.setDown(camera.getDown()+10);
                 glDrawable.display();
                 break;
 
             case KeyEvent.VK_B:
-                if (top >= 680) break;
+                if (camera.getTop() >= 680) break;
 
-                top -= 10;
-                down -= 10;
+                camera.setTop(camera.getTop()-10);
+                camera.setDown(camera.getDown()-10);
                 glDrawable.display();
                 break;
 
@@ -196,4 +192,24 @@ public class Main implements GLEventListener, KeyListener {
     }
 
 
+    @Override
+    public void mouseClicked(MouseEvent e) {}
+
+    @Override
+    public void mousePressed(MouseEvent e) {}
+
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    @Override
+    public void mouseExited(MouseEvent e) {}
+
+    @Override
+    public void mouseDragged(MouseEvent e) {}
+
+    @Override
+    public void mouseMoved(MouseEvent e) {}
 }
