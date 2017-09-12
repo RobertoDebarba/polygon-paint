@@ -1,8 +1,8 @@
-/// \file Transformacao4D.java
+package br.furb.polygonpaint;/// \file br.furb.polygonpaint.Transformacao4D.java
 /// \brief Classe que define as Transformacoes Geometricas no espaco 3D
 /// \version $Revision: 1.7 $
 
-/// \class Transformacao4D
+/// \class br.furb.polygonpaint.Transformacao4D
 /// \brief As Transformacoes usam coordenadas homogeneas
 ///
 /// Uma matriz de Transformacao eh representada por uma matriz 4x4 que acumula trasnformacoes, isto eh, para aplicar as trasnformacoes T1, T2, em seguida, T3,
@@ -92,8 +92,8 @@ public final class Transformacao4D {
 	    matriz[5] =  Math.cos(radians);
 	}
 
-	public Ponto4D transformPoint(Ponto4D point) {
-		Ponto4D pointResult = new Ponto4D(
+	public Point4D transformPoint(Point4D point) {
+		Point4D pointResult = new Point4D(
 				matriz[0]*point.obterX()  + matriz[4]*point.obterY() + matriz[8]*point.obterZ()  + matriz[12]*point.obterW(),
 				matriz[1]*point.obterX()  + matriz[5]*point.obterY() + matriz[9]*point.obterZ()  + matriz[13]*point.obterW(),
 				matriz[2]*point.obterX()  + matriz[6]*point.obterY() + matriz[10]*point.obterZ() + matriz[14]*point.obterW(),

@@ -1,33 +1,33 @@
-/// \file Ponto4D.java
+package br.furb.polygonpaint;/// \file br.furb.polygonpaint.Point4D.java
 /// \brief Classe que define ponto no espaco 3D
 /// \version $Revision: 1.7 $
 
-/// \class Ponto4D
+/// \class br.furb.polygonpaint.Point4D
 /// \brief Pontos e vetores usando coordenadas homogeneas
 ///
-/// A classe Ponto4D fornece uma forma unificada de representar objetos com pontos e vetores, facilitando as operacoes entre estes "dois" tipos de entidade,
-/// juntamente com a integracao com a classe Transformacao4D. O ponto 4D homogeneo eh representado por um vector ( x , y , z, w ).
+/// A classe br.furb.polygonpaint.Point4D fornece uma forma unificada de representar objetos com pontos e vetores, facilitando as operacoes entre estes "dois" tipos de entidade,
+/// juntamente com a integracao com a classe br.furb.polygonpaint.Transformacao4D. O ponto 4D homogeneo eh representado por um vector ( x , y , z, w ).
 /// A coordenada W eh 0 para vetores e 1 para pontos normalizados.
-public final class Ponto4D {
+public final class Point4D {
 	private double x; /// valor X.
 	private double y; /// valor Y.
 	private double z; /// valor Z.
 	private double w; /// valor W.
 
 	 /// Cria o ponto (0,0,0,1).
-	public Ponto4D() {
+	public Point4D() {
 		this(0, 0, 0, 1);
 	}
 	
 	 /// Cria o ponto (0,0,0,1).
-	public Ponto4D(double x, double y, double z, double w) {
+	public Point4D(double x, double y, double z, double w) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		this.w = w;
 	}
 	
-	public Ponto4D inverterSinal(Ponto4D pto) {
+	public Point4D inverterSinal(Point4D pto) {
 		pto.atribuirX(pto.obterX()*-1);
 		pto.atribuirY(pto.obterY()*-1);
 		pto.atribuirZ(pto.obterZ()*-1);

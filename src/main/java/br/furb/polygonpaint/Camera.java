@@ -1,3 +1,6 @@
+package br.furb.polygonpaint;
+
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Camera {
 
@@ -43,5 +46,17 @@ public class Camera {
 
     public void setTop(float top) {
         this.top = top;
+    }
+
+    public void zoomIn() {
+        throw new NotImplementedException();
+    }
+
+    public void zoomOut() {
+        throw new NotImplementedException();
+    }
+
+    public void pam() {
+        throw new NotImplementedException();
     }
 }
