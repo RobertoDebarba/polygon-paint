@@ -1,12 +1,19 @@
 package br.furb.polygonpaint;
 
-import javax.media.opengl.GLCanvas;
-import javax.media.opengl.GLCapabilities;
+import javax.media.opengl.*;
+import javax.media.opengl.glu.GLU;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.List;
 
-public class World extends JFrame {
+public class World implements GLEventListener, MouseListener {
+
+    private GL gl;
+    private GLU glu;
+    private GLAutoDrawable glDrawable;
 
     private Camera camera;
     private GraphicalObject selectedGraphicalObject;
@@ -14,20 +21,9 @@ public class World extends JFrame {
     private List<GraphicalObject> graphicalObjects;
 
     public World() {
-        setTitle("Polygon Paint");
-        setBounds(300, 250, 400, 400 + 22);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new BorderLayout());
-
-        GLCapabilities glCaps = new GLCapabilities();
-        glCaps.setRedBits(8);
-        glCaps.setBlueBits(8);
-        glCaps.setGreenBits(8);
-        glCaps.setAlphaBits(8);
-
-        GLCanvas canvas = new GLCanvas(glCaps);
-        add(canvas, BorderLayout.CENTER);
-        canvas.requestFocus();
+        setBackgroundColor(new Color(1, 1, 1));
+        setCamera(new Camera(0, 400, 0, 400));
+        setGraphicalObjects(new ArrayList<>());
     }
 
     public Camera getCamera() {
@@ -60,5 +56,79 @@ public class World extends JFrame {
 
     public void setGraphicalObjects(List<GraphicalObject> graphicalObjects) {
         this.graphicalObjects = graphicalObjects;
+    }
+
+    @Override
+    public void init(GLAutoDrawable glAutoDrawable) {
+        glDrawable = glAutoDrawable;
+        gl = glAutoDrawable.getGL();
+        glu = new GLU();
+        glDrawable.setGL(new DebugGL(gl));
+        gl.glClearColor(getBackgroundColor().getRed(), getBackgroundColor().getGreen(), getBackgroundColor().getBlue(), 1.0f);
+    }
+
+    @Override
+    public void display(GLAutoDrawable glAutoDrawable) {
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+
+        glu.gluOrtho2D(getCamera().getLeft(), getCamera().getRight(), getCamera().getTop(), getCamera().getDown());
+
+        // seu desenho ...
+        for (GraphicalObject obj: graphicalObjects) {
+            obj.draw(gl);
+        }
+
+        gl.glFlush();
+    }
+
+    @Override
+    public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int width, int height) {
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glLoadIdentity();
+        gl.glViewport(0, 0, width, height);
+    }
+
+    @Override
+    public void displayChanged(GLAutoDrawable glAutoDrawable, boolean b, boolean b1) {
+
+    }
+
+    private int MOUSE_RIGHT_BUTON = 1;
+    private int MOUSE_LEFT_BUTON = 3;
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(getSelectedGraphicalObject() != null && getSelectedGraphicalObject().getEhAlter() ){
+
+        }else{
+            if(e.getButton() == MOUSE_RIGHT_BUTON){
+                GraphicalObject graphObject = new GraphicalObject();
+                graphicalObjects.add(graphObject);
+                setSelectedGraphicalObject(graphObject);
+                graphObject.addPoint(new Point4D(e.getX(), e.getY(), 1, 1));
+                graphObject.addPoint(new Point4D(e.getX(), e.getY(), 1, 1));
+            }
+        }
+        glDrawable.display();
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
