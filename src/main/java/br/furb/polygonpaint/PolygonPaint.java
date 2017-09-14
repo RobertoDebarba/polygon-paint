@@ -1,12 +1,15 @@
 package br.furb.polygonpaint;
 
-import javax.media.opengl.GLCanvas;
-import javax.media.opengl.GLCapabilities;
+import javax.media.opengl.*;
+import javax.media.opengl.glu.GLU;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 public class PolygonPaint extends JFrame {
-    public PolygonPaint() {
+    private PolygonPaint() {
         World world = new World();
 
         setTitle("Polygon Paint");
@@ -24,10 +27,12 @@ public class PolygonPaint extends JFrame {
         add(canvas, BorderLayout.CENTER);
         canvas.addGLEventListener(world);
         canvas.addMouseListener(world);
+        canvas.addMouseMotionListener(world);
         canvas.requestFocus();
     }
 
     public static void main(String[] args) {
         new PolygonPaint().setVisible(true);
     }
+
 }

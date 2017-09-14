@@ -6,10 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class World implements GLEventListener, MouseListener {
+public class World implements GLEventListener, MouseListener, MouseMotionListener {
 
     private GL gl;
     private GLU glu;
@@ -71,10 +72,13 @@ public class World implements GLEventListener, MouseListener {
     public void display(GLAutoDrawable glAutoDrawable) {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
 
+        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glLoadIdentity();
+        //glu.gluOrtho2D(-400.0f, 400.0f, -400.0f, 400.0f);
         glu.gluOrtho2D(getCamera().getLeft(), getCamera().getRight(), getCamera().getTop(), getCamera().getDown());
 
         // seu desenho ...
-        for (GraphicalObject obj: graphicalObjects) {
+        for (GraphicalObject obj : graphicalObjects) {
             obj.draw(gl);
         }
 
@@ -83,6 +87,7 @@ public class World implements GLEventListener, MouseListener {
 
     @Override
     public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int width, int height) {
+        System.out.println(" --- reshape ---");
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
         gl.glViewport(0, 0, width, height);
@@ -98,15 +103,15 @@ public class World implements GLEventListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(getSelectedGraphicalObject() != null && getSelectedGraphicalObject().getEhAlter() ){
-
-        }else{
-            if(e.getButton() == MOUSE_RIGHT_BUTON){
+        if (getSelectedGraphicalObject() != null && getSelectedGraphicalObject().getEhAlter()) {
+            getSelectedGraphicalObject().addPoint(new Point4D(e.getX(), e.getY(), 0, 1));
+        } else {
+            if (e.getButton() == MOUSE_RIGHT_BUTON) {
                 GraphicalObject graphObject = new GraphicalObject();
                 graphicalObjects.add(graphObject);
                 setSelectedGraphicalObject(graphObject);
-                graphObject.addPoint(new Point4D(e.getX(), e.getY(), 1, 1));
-                graphObject.addPoint(new Point4D(e.getX(), e.getY(), 1, 1));
+                graphObject.addPoint(new Point4D(e.getX(), e.getY(), 0, 1));
+                graphObject.addPoint(new Point4D(e.getX(), e.getY(), 0, 1));
             }
         }
         glDrawable.display();
@@ -130,5 +135,19 @@ public class World implements GLEventListener, MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        if (getSelectedGraphicalObject() != null && getSelectedGraphicalObject().getEhAlter()) {
+            getSelectedGraphicalObject().getSelectedPoint().atribuirX(e.getX());
+            getSelectedGraphicalObject().getSelectedPoint().atribuirY(e.getY());
+            glDrawable.display();
+        }
     }
 }

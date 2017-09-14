@@ -73,5 +73,32 @@ public final class Point4D {
 //	public void AtribuirW(double w) {
 //		this.w = w;
 //	}
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Point4D point4D = (Point4D) o;
+
+		if (Double.compare(point4D.x, x) != 0) return false;
+		if (Double.compare(point4D.y, y) != 0) return false;
+		if (Double.compare(point4D.z, z) != 0) return false;
+		return Double.compare(point4D.w, w) == 0;
+	}
+
+	@Override
+	public int hashCode() {
+		int result;
+		long temp;
+		temp = Double.doubleToLongBits(x);
+		result = (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(y);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(z);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(w);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
 }

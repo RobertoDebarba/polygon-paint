@@ -70,13 +70,27 @@ public class GraphicalObject {
     }
 
     public void draw(GL gl) {
-        gl.glColor3f(getColor().getRed(), getColor().getGreen(), getColor().getBlue());
+        gl.glColor3f(0, 0, 0);
+        gl.glPointSize(3.0f);
         gl.glLineWidth(3.0f);
-        gl.glBegin(GL.GL_LINES);
+        gl.glBegin(getPrimitive());
         for (Point4D pt : points) {
-            gl.glVertex4d(pt.obterX(), pt.obterY(), pt.obterZ(), pt.obterW());
+            gl.glVertex2d(pt.obterX(), pt.obterY());
         }
         gl.glEnd();
+    }
+
+    private int getPrimitive() {
+        if(points.size() == 2 && points.get(0).equals(points.get(1)))
+        {
+            return GL.GL_POINTS;
+        }
+        else
+            return graphicalPrimitive.getId();
+    }
+
+    public Point4D getSelectedPoint() {
+        return points.get(points.size() -1);
     }
 
     public boolean getEhAlter() {
