@@ -1,23 +1,21 @@
 package br.furb.polygonpaint
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException
+import java.awt.event.MouseEvent
 
 import javax.media.opengl.GL
 import java.util.ArrayList
 
 class GraphicalObject {
-    var color: Color
-    var graphicalPrimitive: GraphicalPrimitive
-    var points: MutableList<Point4D>
+    var color: Color = Color(0f, 0f, 0f)
+    var graphicalPrimitive: GraphicalPrimitive = GraphicalPrimitive.LINE_LOOP
+    var points: MutableList<Point4D> = ArrayList()
     var boundingBox: BoundingBox? = null
     var transformation: Transformacao4D? = null
     fun ehAlter() = points.size > 0 && _ehAlter
-    private val _ehAlter: Boolean
+    private var _ehAlter: Boolean
 
     init {
-        graphicalPrimitive = GraphicalPrimitive.LINE_LOOP
-        color = Color(0f, 0f, 0f)
-        points = ArrayList()
         _ehAlter = true
     }
 
@@ -48,8 +46,22 @@ class GraphicalObject {
 
     fun selectedPoint() = points.last()
 
-    fun addPoint(point4D: Point4D) {
+    private fun addPoint(point4D: Point4D) {
         points.add(point4D)
+    }
+
+    private val MOUSE_RIGHT_BUTON = 1
+    private val MOUSE_LEFT_BUTON = 3
+
+    fun mouseClicked(e: MouseEvent) {
+        if(e.button == MOUSE_RIGHT_BUTON){
+            if(points.size == 0)
+                addPoint(Point4D(e.x.toDouble(), e.y.toDouble(), 0.0, 1.0))
+            addPoint(Point4D(e.x.toDouble(), e.y.toDouble(), 0.0, 1.0))
+        }else if(points.size > 0){
+            points.removeAt(points.size -1)
+            _ehAlter = false
+        }
     }
 }
 
