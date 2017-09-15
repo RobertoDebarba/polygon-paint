@@ -8,16 +8,19 @@ fun glColor(color: Color) = gl { glColor3f(color.red, color.green, color.blue) }
 
 fun glPoint(point: Point4D) = gl { glVertex2d(point.x, point.y) }
 
-fun lineLoop(block: () -> Unit) = {
-    gl { glBegin(GL.GL_LINE_LOOP) }
-    block()
-    gl { glEnd() }
+fun lineLoop(block: () -> Unit) {
+    run {
+        gl { glBegin(GL.GL_LINE_LOOP) }
+        block()
+        gl { glEnd() }
+    }
 }
-
-fun point(block: () -> Unit) = {
-    gl { glBegin(GL.GL_POINTS) }
-    block()
-    gl { glEnd() }
+fun point(block: () -> Unit) {
+    run {
+        gl { glBegin(GL.GL_POINTS) }
+        block()
+        gl { glEnd() }
+    }
 }
 
 fun lineLoopOrPoint(isLineLoop: () -> Boolean, block: () -> Unit) = if (isLineLoop()) lineLoop(block) else point(block)

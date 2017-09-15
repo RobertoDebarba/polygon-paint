@@ -8,7 +8,7 @@ class World {
 
     private var camera: Camera = Camera(0.toDouble(), 400.toDouble(), 0.toDouble(), 400.toDouble())
     private var selectedGraphicalObject: GraphicalObject
-     var backgroundColor: Color = BLACK
+    var backgroundColor: Color = BLACK
     private var graphicalObjects: MutableList<GraphicalObject> = ArrayList()
 
     init {
@@ -37,7 +37,6 @@ class World {
     fun draw() {
         GLProvider.glu.gluOrtho2D(camera.left, camera.right, camera.top, camera.down)
 
-        // seu desenho ...
         for (obj in graphicalObjects) {
             obj.draw()
         }
@@ -46,7 +45,7 @@ class World {
     }
 
     fun rezise(width: Int, height: Int) {
-        camera.top = camera.down + height ;
-        camera.right = camera.left + width;
+        camera.top = camera.down + height
+        camera.right = camera.left + width
     }
 }

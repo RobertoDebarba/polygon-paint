@@ -30,26 +30,20 @@ class GraphicalObject {
 
     fun drawBoundingBox() {
         if(points.size > 0)
-            boundingBox.desenharOpenGLBBox(GLProvider.gl)
+            boundingBox.desenharOpenGLBBox()
     }
 
     fun draw() {
-        GLProvider.gl.glColor3f(0f, 0f, 0f)
-        GLProvider.gl.glPointSize(3.0f)
-        GLProvider.gl.glLineWidth(3.0f)
-        GLProvider.gl.glBegin(primitive)
-        for (pt in points) {
-            GLProvider.gl.glVertex2d(pt.x, pt.y)
+        gl{
+            glColor(WHITE)
+            glPointSize(3f)
+            glLineWidth(3f)
+
+            lineLoopOrPoint(isLineLoop){
+                points.forEach { glPoint(it) }
+            }
         }
-        GLProvider.gl.glEnd()
     }
-
-    private val primitive: Int
-        get() = when {
-            points.size == 2 && points[0] == points[1] -> GL.GL_POINTS
-            else -> graphicalPrimitive.id
-        }
-
     fun selectedPoint() = points.last()
 
     private fun addPoint(point4D: Point4D) {
@@ -63,7 +57,7 @@ class GraphicalObject {
     fun mouseClicked(e: MouseEvent) {
         if(e.button == MOUSE_RIGHT_BUTON){
             if(points.size == 0){
-                var point = Point4D(e.x.toDouble(), e.y.toDouble(), 0.0, 1.0)
+                val point = Point4D(e.x.toDouble(), e.y.toDouble(), 0.0, 1.0)
                 boundingBox = BoundingBox(point.x, point.y, point.z)
                 addPoint(point)
             }
@@ -73,5 +67,8 @@ class GraphicalObject {
             _ehAlter = false
         }
     }
+
+    private val isLineLoop = {!(points.size == 2 && points[0] == points[1])}
+
 }
 

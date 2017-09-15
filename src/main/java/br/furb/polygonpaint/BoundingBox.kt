@@ -1,5 +1,6 @@
 package br.furb.polygonpaint
 
+import br.furb.polygonpaint.Color.RED
 import javax.media.opengl.GL
 
 class BoundingBox constructor(var menorX: Double = 0.0,
@@ -53,15 +54,16 @@ class BoundingBox constructor(var menorX: Double = 0.0,
         centro.z = (maiorZ + menorZ) / 2
     }
 
-    fun desenharOpenGLBBox(gl: GL) {
-        gl.glColor3f(1.0f, 0.0f, 0.0f)
-
-        gl.glBegin(GL.GL_LINE_LOOP)
-        gl.glVertex3d(menorX, maiorY, menorZ)
-        gl.glVertex3d(maiorX, maiorY, menorZ)
-        gl.glVertex3d(maiorX, menorY, menorZ)
-        gl.glVertex3d(menorX, menorY, menorZ)
-        gl.glEnd()
+    fun desenharOpenGLBBox() {
+        gl {
+            glColor(RED)
+            lineLoop {
+                glVertex3d(menorX, maiorY, menorZ)
+                glVertex3d(maiorX, maiorY, menorZ)
+                glVertex3d(maiorX, menorY, menorZ)
+                glVertex3d(menorX, menorY, menorZ)
+            }
+        }
     }
 
 }
