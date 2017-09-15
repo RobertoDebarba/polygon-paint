@@ -1,5 +1,6 @@
 package br.furb.polygonpaint
 
+import br.furb.polygonpaint.Color.BLACK
 import java.awt.event.MouseEvent
 import java.util.*
 
@@ -7,7 +8,7 @@ class World {
 
     private var camera: Camera = Camera(0.toDouble(), 400.toDouble(), 0.toDouble(), 400.toDouble())
     private var selectedGraphicalObject: GraphicalObject
-    var backgroundColor: Color = Color(1f, 1f, 1f)
+     var backgroundColor: Color = BLACK
     private var graphicalObjects: MutableList<GraphicalObject> = ArrayList()
 
     init {

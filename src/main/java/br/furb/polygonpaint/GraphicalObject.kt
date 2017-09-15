@@ -1,5 +1,6 @@
 package br.furb.polygonpaint
 
+import br.furb.polygonpaint.Color.WHITE
 import sun.reflect.generics.reflectiveObjects.NotImplementedException
 import java.awt.event.MouseEvent
 
@@ -7,7 +8,7 @@ import javax.media.opengl.GL
 import java.util.ArrayList
 
 class GraphicalObject {
-    var color: Color = Color(0f, 0f, 0f)
+    var color: Color = WHITE
     var graphicalPrimitive: GraphicalPrimitive = GraphicalPrimitive.LINE_LOOP
     var points: MutableList<Point4D> = ArrayList()
     lateinit var boundingBox: BoundingBox
