@@ -16,7 +16,7 @@ class World {
     }
 
     fun mouseClicked(e: MouseEvent) {
-        if(!selectedGraphicalObject.ehAlter()){
+        if (!selectedGraphicalObject.isEditing) {
             val graphObject = GraphicalObject()
             graphicalObjects.add(graphObject)
             selectedGraphicalObject = graphObject
@@ -25,22 +25,19 @@ class World {
     }
 
     fun mouseMoved(e: MouseEvent): Boolean {
-        if (selectedGraphicalObject.ehAlter()) {
+        if (selectedGraphicalObject.isEditing) {
             selectedGraphicalObject.selectedPoint().x = e.x.toDouble()
             selectedGraphicalObject.selectedPoint().y = e.y.toDouble()
             return true
         }
-
         return false
     }
 
     fun draw() {
-        GLProvider.glu.gluOrtho2D(camera.left, camera.right, camera.top, camera.down)
-
-        for (obj in graphicalObjects) {
-            obj.draw()
+        glu {
+            gluOrtho2D(camera.left, camera.right, camera.top, camera.down)
         }
-
+        graphicalObjects.forEach { it.draw() }
         selectedGraphicalObject.drawBoundingBox()
     }
 
