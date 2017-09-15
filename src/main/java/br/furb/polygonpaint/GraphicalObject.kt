@@ -10,7 +10,7 @@ class GraphicalObject {
     var color: Color = Color(0f, 0f, 0f)
     var graphicalPrimitive: GraphicalPrimitive = GraphicalPrimitive.LINE_LOOP
     var points: MutableList<Point4D> = ArrayList()
-    var boundingBox: BoundingBox? = null
+    lateinit var boundingBox: BoundingBox
     var transformation: Transformacao4D? = null
     fun ehAlter() = points.size > 0 && _ehAlter
     private var _ehAlter: Boolean
@@ -27,15 +27,20 @@ class GraphicalObject {
         throw NotImplementedException()
     }
 
-    fun draw(gl: GL) {
-        gl.glColor3f(0f, 0f, 0f)
-        gl.glPointSize(3.0f)
-        gl.glLineWidth(3.0f)
-        gl.glBegin(primitive)
+    fun drawBoundingBox() {
+        if(points.size > 0)
+            boundingBox.desenharOpenGLBBox(GLProvider.gl)
+    }
+
+    fun draw() {
+        GLProvider.gl.glColor3f(0f, 0f, 0f)
+        GLProvider.gl.glPointSize(3.0f)
+        GLProvider.gl.glLineWidth(3.0f)
+        GLProvider.gl.glBegin(primitive)
         for (pt in points) {
-            gl.glVertex2d(pt.x, pt.y)
+            GLProvider.gl.glVertex2d(pt.x, pt.y)
         }
-        gl.glEnd()
+        GLProvider.gl.glEnd()
     }
 
     private val primitive: Int
@@ -48,6 +53,7 @@ class GraphicalObject {
 
     private fun addPoint(point4D: Point4D) {
         points.add(point4D)
+        boundingBox.atualizarBBox(point4D)
     }
 
     private val MOUSE_RIGHT_BUTON = 1
@@ -55,8 +61,11 @@ class GraphicalObject {
 
     fun mouseClicked(e: MouseEvent) {
         if(e.button == MOUSE_RIGHT_BUTON){
-            if(points.size == 0)
-                addPoint(Point4D(e.x.toDouble(), e.y.toDouble(), 0.0, 1.0))
+            if(points.size == 0){
+                var point = Point4D(e.x.toDouble(), e.y.toDouble(), 0.0, 1.0)
+                boundingBox = BoundingBox(point.x, point.y, point.z)
+                addPoint(point)
+            }
             addPoint(Point4D(e.x.toDouble(), e.y.toDouble(), 0.0, 1.0))
         }else if(points.size > 0){
             points.removeAt(points.size -1)

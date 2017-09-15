@@ -2,12 +2,17 @@ package br.furb.polygonpaint
 
 import javax.media.opengl.GL
 
-class BoundingBox @JvmOverloads constructor(var menorX: Double = 0.0,
-                                            var menorY: Double = 0.0,
-                                            var menorZ: Double = 0.0,
-                                            var maiorX: Double = 0.0,
-                                            var maiorY: Double = 0.0,
-                                            var maiorZ: Double = 0.0) {
+class BoundingBox constructor(var menorX: Double = 0.0,
+                              var menorY: Double = 0.0,
+                              var menorZ: Double = 0.0,
+                              var maiorX: Double = 0.0,
+                              var maiorY: Double = 0.0,
+                              var maiorZ: Double = 0.0) {
+
+    override fun toString(): String {
+        return super.toString()
+    }
+
     val centro : Point4D = Point4D(0.toDouble(), 0.toDouble())
 
     fun atribuirBoundingBox(smallerX: Double, smallerY: Double, smallerZ: Double, greaterX: Double, greaterY: Double, greaterZ: Double) {
@@ -56,24 +61,6 @@ class BoundingBox @JvmOverloads constructor(var menorX: Double = 0.0,
         gl.glVertex3d(maiorX, maiorY, menorZ)
         gl.glVertex3d(maiorX, menorY, menorZ)
         gl.glVertex3d(menorX, menorY, menorZ)
-        gl.glEnd()
-        gl.glBegin(GL.GL_LINE_LOOP)
-        gl.glVertex3d(menorX, menorY, menorZ)
-        gl.glVertex3d(menorX, menorY, maiorZ)
-        gl.glVertex3d(menorX, maiorY, maiorZ)
-        gl.glVertex3d(menorX, maiorY, menorZ)
-        gl.glEnd()
-        gl.glBegin(GL.GL_LINE_LOOP)
-        gl.glVertex3d(maiorX, maiorY, maiorZ)
-        gl.glVertex3d(menorX, maiorY, maiorZ)
-        gl.glVertex3d(menorX, menorY, maiorZ)
-        gl.glVertex3d(maiorX, menorY, maiorZ)
-        gl.glEnd()
-        gl.glBegin(GL.GL_LINE_LOOP)
-        gl.glVertex3d(maiorX, menorY, menorZ)
-        gl.glVertex3d(maiorX, maiorY, menorZ)
-        gl.glVertex3d(maiorX, maiorY, maiorZ)
-        gl.glVertex3d(maiorX, menorY, maiorZ)
         gl.glEnd()
     }
 

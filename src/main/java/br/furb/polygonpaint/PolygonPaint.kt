@@ -4,12 +4,15 @@ import javax.media.opengl.*
 import javax.media.opengl.glu.GLU
 import javax.swing.*
 import java.awt.*
-import java.awt.event.MouseEvent
-import java.awt.event.MouseListener
-import java.awt.event.MouseMotionListener
+import java.awt.event.*
+import java.awt.event.ComponentEvent
+import java.awt.event.ComponentListener
 
-class PolygonPaint : JFrame(), GLEventListener, MouseListener, MouseMotionListener  {
-    lateinit var world :World
+
+
+class PolygonPaint : JFrame(), GLEventListener, MouseListener, MouseMotionListener, ComponentListener  {
+
+    var world :World = World()
 
     init {
 
@@ -23,13 +26,15 @@ class PolygonPaint : JFrame(), GLEventListener, MouseListener, MouseMotionListen
         glCaps.blueBits = 8
         glCaps.greenBits = 8
         glCaps.alphaBits = 8
-
+        cursor = Cursor(Cursor.HAND_CURSOR)
         val canvas = GLCanvas(glCaps)
         add(canvas, BorderLayout.CENTER)
         canvas.addGLEventListener(this)
         canvas.addMouseListener(this)
         canvas.addMouseMotionListener(this)
         canvas.requestFocus()
+
+        addComponentListener(this)
     }
 
     override fun init(glAutoDrawable: GLAutoDrawable) {
@@ -37,7 +42,7 @@ class PolygonPaint : JFrame(), GLEventListener, MouseListener, MouseMotionListen
         GLProvider.gl = glAutoDrawable.gl
         GLProvider.glu = GLU()
         GLProvider.glDrawable.gl = DebugGL(GLProvider.gl)
-        world = World()
+        GLProvider.gl.glClearColor(world.backgroundColor.red, world.backgroundColor.green, world.backgroundColor.blue, 1.0f)
     }
 
     override fun display(glAutoDrawable: GLAutoDrawable) {
@@ -90,6 +95,19 @@ class PolygonPaint : JFrame(), GLEventListener, MouseListener, MouseMotionListen
 
         if(draw)
             GLProvider.glDrawable.display()
+    }
+
+    override fun componentMoved(e: ComponentEvent?) {
+    }
+
+    override fun componentResized(e: ComponentEvent?) {
+        world.rezise(this.width, this.height -22)
+    }
+
+    override fun componentHidden(e: ComponentEvent?) {
+    }
+
+    override fun componentShown(e: ComponentEvent?) {
     }
 
 }
