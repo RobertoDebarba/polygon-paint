@@ -52,18 +52,27 @@ class GraphicalObject {
     private val MOUSE_LEFT_BUTON = 3
 
     fun mouseClicked(mouse: MouseEvent) {
-        if (isRightClick(mouse)) {
-            if (!isInitialized())
-                initialize(mouse.toPoint())
+        if (isRightClick(mouse))
+            actionRightClick(mouse)
+        else
+            actionLeftClick()
+    }
 
-            addPoint(mouse.toPoint())
-        } else if (isInitialized()) {
-            points.removeAt(points.size - 1)
+    private fun actionLeftClick() {
+        if (isInitialized()) {
+            points.removeLast()
             isEditing = false
         }
     }
 
-    private fun initialize(point : Point4D) {
+    private fun actionRightClick(mouse: MouseEvent) {
+        if (!isInitialized())
+            initialize(mouse.toPoint())
+
+        addPoint(mouse.toPoint())
+    }
+
+    private fun initialize(point: Point4D) {
         boundingBox = BoundingBox(point.x, point.y, point.z)
         addPoint(point)
     }
@@ -73,6 +82,5 @@ class GraphicalObject {
     private fun isRightClick(e: MouseEvent) = e.button == MOUSE_RIGHT_BUTON
 
     private val isLineLoop = { !(points.size == 2 && points[0] == points[1]) }
-
 }
 

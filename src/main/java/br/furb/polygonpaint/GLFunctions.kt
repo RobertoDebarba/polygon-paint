@@ -32,3 +32,5 @@ fun point(block: () -> Unit) {
 fun lineLoopOrPoint(isLineLoop: () -> Boolean, block: () -> Unit) = if (isLineLoop()) lineLoop(block) else point(block)
 
 fun MouseEvent.toPoint() = Point4D(this.x.toDouble(), this.y.toDouble())
+
+fun <T> MutableList<T>.removeLast() = this.removeAt(this.size - 1)
