@@ -1,10 +1,10 @@
-package br.furb.polygonpaint
+package br.furb.polygonpaint.world
 
-/// \file br.furb.polygonpaint.Transformacao4D.java
+/// \file br.furb.polygonpaint.world.Transformacao4D.java
 /// \brief Classe que define as Transformacoes Geometricas no espaco 3D
 /// \version $Revision: 1.7 $
 
-/// \class br.furb.polygonpaint.Transformacao4D
+/// \class br.furb.polygonpaint.world.Transformacao4D
 /// \brief As Transformacoes usam coordenadas homogeneas
 ///
 /// Uma matriz de Transformacao eh representada por uma matriz 4x4 que acumula trasnformacoes, isto eh, para aplicar as trasnformacoes T1, T2, em seguida, T3,

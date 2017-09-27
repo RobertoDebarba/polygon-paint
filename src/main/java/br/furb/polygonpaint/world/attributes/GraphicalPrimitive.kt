@@ -1,4 +1,4 @@
-package br.furb.polygonpaint
+package br.furb.polygonpaint.world.attributes
 
 import javax.media.opengl.GL
 

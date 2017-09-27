@@ -1,20 +1,36 @@
-package br.furb.polygonpaint
+package br.furb.polygonpaint.world
 
-import br.furb.polygonpaint.Color.RED
-import javax.media.opengl.GL
+import br.furb.polygonpaint.gl
+import br.furb.polygonpaint.glColor
+import br.furb.polygonpaint.lineLoop
+import br.furb.polygonpaint.world.attributes.Color.RED
 
-class BoundingBox constructor(var menorX: Double = 0.0,
-                              var menorY: Double = 0.0,
-                              var menorZ: Double = 0.0,
-                              var maiorX: Double = 0.0,
-                              var maiorY: Double = 0.0,
-                              var maiorZ: Double = 0.0) {
+class BoundingBox {
+
+    private var menorX: Double
+    private var menorY: Double
+    private var menorZ: Double
+    private var maiorX: Double
+    private var maiorY: Double
+    private var maiorZ: Double
+
+    constructor(menorX: Double = 0.0, menorY: Double = 0.0, menorZ: Double = 0.0, maiorX: Double = 0.0, maiorY: Double = 0.0, maiorZ: Double = 0.0) {
+        this.menorX = menorX
+        this.menorY = menorY
+        this.menorZ = menorZ
+        this.maiorX = maiorX
+        this.maiorY = maiorY
+        this.maiorZ = maiorZ
+        this.centro = Point4D(0.toDouble(), 0.toDouble())
+    }
+
+    constructor(point: Point4D) : this(point.x, point.y, point.z)
 
     override fun toString(): String {
         return super.toString()
     }
 
-    val centro : Point4D = Point4D(0.toDouble(), 0.toDouble())
+    val centro : Point4D
 
     fun atribuirBoundingBox(smallerX: Double, smallerY: Double, smallerZ: Double, greaterX: Double, greaterY: Double, greaterZ: Double) {
         this.menorX = smallerX

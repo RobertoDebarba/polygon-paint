@@ -1,4 +1,4 @@
-package br.furb.polygonpaint
+package br.furb.polygonpaint.world.attributes
 
 enum class Color(var red: Float, var green: Float, var blue: Float) {
 

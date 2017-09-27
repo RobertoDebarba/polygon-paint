@@ -1,4 +1,4 @@
-package br.furb.polygonpaint
+package br.furb.polygonpaint.world
 
 data class Point4D(var x: Double,
               var y: Double,
@@ -17,5 +17,12 @@ data class Point4D(var x: Double,
             pto.w = pto.w *-1
         }
 
+    }
+
+    fun moveTo(point: Point4D) {
+        x = point.x
+        y = point.y
+        z = point.z
+        w = point.w
     }
 }

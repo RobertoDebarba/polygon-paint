@@ -1,18 +1,16 @@
 package br.furb.polygonpaint
 
+import br.furb.polygonpaint.world.World
+import br.furb.polygonpaint.world.interactions.InteractionBase
 import javax.media.opengl.*
 import javax.media.opengl.glu.GLU
 import javax.swing.*
 import java.awt.*
-import java.awt.event.*
-import java.awt.event.ComponentEvent
-import java.awt.event.ComponentListener
 
 
+class PolygonPaint : JFrame(), GLEventListener {
 
-class PolygonPaint : JFrame(), GLEventListener, MouseListener, MouseMotionListener, ComponentListener  {
-
-    var world :World = World()
+    var world : World = World()
 
     init {
 
@@ -30,11 +28,8 @@ class PolygonPaint : JFrame(), GLEventListener, MouseListener, MouseMotionListen
         val canvas = GLCanvas(glCaps)
         add(canvas, BorderLayout.CENTER)
         canvas.addGLEventListener(this)
-        canvas.addMouseListener(this)
-        canvas.addMouseMotionListener(this)
+        InteractionBase(world, canvas)
         canvas.requestFocus()
-
-        addComponentListener(this)
     }
 
     override fun init(glAutoDrawable: GLAutoDrawable) {
@@ -61,53 +56,6 @@ class PolygonPaint : JFrame(), GLEventListener, MouseListener, MouseMotionListen
 
     override fun displayChanged(glAutoDrawable: GLAutoDrawable, b: Boolean, b1: Boolean) {
 
-    }
-
-    override fun mouseClicked(e: MouseEvent) {
-        world.mouseClicked(e)
-        GLProvider.glDrawable.display()
-    }
-
-    override fun mousePressed(e: MouseEvent) {
-
-    }
-
-    override fun mouseReleased(e: MouseEvent) {
-
-    }
-
-    override fun mouseEntered(e: MouseEvent) {
-
-    }
-
-    override fun mouseExited(e: MouseEvent) {
-
-    }
-
-    override fun mouseDragged(e: MouseEvent) {
-
-    }
-
-    override fun mouseMoved(e: MouseEvent) {
-        var draw = false
-        draw = world.mouseMoved(e) || draw
-
-
-        if(draw)
-            GLProvider.glDrawable.display()
-    }
-
-    override fun componentMoved(e: ComponentEvent?) {
-    }
-
-    override fun componentResized(e: ComponentEvent?) {
-        world.rezise(this.width, this.height -22)
-    }
-
-    override fun componentHidden(e: ComponentEvent?) {
-    }
-
-    override fun componentShown(e: ComponentEvent?) {
     }
 
 }

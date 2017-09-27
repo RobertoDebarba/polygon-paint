@@ -1,4 +1,4 @@
-package br.furb.polygonpaint
+package br.furb.polygonpaint.world
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException
 
