@@ -11,7 +11,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException
 import java.util.*
 
 class GraphicalObject {
-    private var color: Color = WHITE
+    var color: Color = WHITE
     var graphicalPrimitive: GraphicalPrimitive = GraphicalPrimitive.LINE_LOOP
     private var points: MutableList<Point4D> = ArrayList()
     private lateinit var boundingBox: BoundingBox
