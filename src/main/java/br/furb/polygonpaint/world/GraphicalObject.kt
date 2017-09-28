@@ -3,7 +3,7 @@ package br.furb.polygonpaint.world
 import br.furb.polygonpaint.gl
 import br.furb.polygonpaint.glColor
 import br.furb.polygonpaint.glPoint
-import br.furb.polygonpaint.lineLoopOrPoint
+import br.furb.polygonpaint.polygon
 import br.furb.polygonpaint.world.attributes.Color
 import br.furb.polygonpaint.world.attributes.Color.WHITE
 import br.furb.polygonpaint.world.attributes.GraphicalPrimitive
@@ -12,7 +12,7 @@ import java.util.*
 
 class GraphicalObject {
     private var color: Color = WHITE
-    private var graphicalPrimitive: GraphicalPrimitive = GraphicalPrimitive.LINE_LOOP
+    var graphicalPrimitive: GraphicalPrimitive = GraphicalPrimitive.LINE_LOOP
     private var points: MutableList<Point4D> = ArrayList()
     private lateinit var boundingBox: BoundingBox
     private var transformation: Transformacao4D? = null
@@ -39,7 +39,7 @@ class GraphicalObject {
             glPointSize(3f)
             glLineWidth(3f)
 
-            lineLoopOrPoint(isLineLoop) {
+            polygon(graphicalPrimitive, points.size) {
                 points.forEach { glPoint(it) }
             }
         }

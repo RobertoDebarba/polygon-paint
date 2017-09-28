@@ -51,6 +51,7 @@ open class InteractionBase(protected val world: World,
         // 0
             48 -> InsertionPolygonAction(world, canvas)
             49 -> EditablePointAction(world, canvas)
+            50 -> SwitchPrimitiveAction(world, canvas)
         }
     }
 
