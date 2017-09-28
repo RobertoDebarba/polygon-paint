@@ -26,11 +26,7 @@ class BoundingBox {
 
     constructor(point: Point4D) : this(point.x, point.y, point.z)
 
-    override fun toString(): String {
-        return super.toString()
-    }
-
-    val centro : Point4D
+    val centro: Point4D
 
     fun atribuirBoundingBox(smallerX: Double, smallerY: Double, smallerZ: Double, greaterX: Double, greaterY: Double, greaterZ: Double) {
         this.menorX = smallerX

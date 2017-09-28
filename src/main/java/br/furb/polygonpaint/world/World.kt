@@ -25,7 +25,7 @@ class World {
         selectedGraphicalObject.drawBoundingBox()
     }
 
-    fun addGraphicalObject( graphicalObject : GraphicalObject){
+    fun addGraphicalObject(graphicalObject: GraphicalObject) {
         graphicalObjects.add(graphicalObject)
         selectedGraphicalObject = graphicalObject
     }

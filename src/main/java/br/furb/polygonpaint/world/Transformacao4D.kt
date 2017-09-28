@@ -11,8 +11,6 @@ package br.furb.polygonpaint.world
 /// eh necessario multiplicar T1 * T2 * T3.
 /// Os valores de Translacao estao na coluna mais a direita.
 
-import java.lang.Math
-
 // Organizacao dos elementos internos da Matriz
 //             [ matrix[0] matrix[4] matrix[8]  matrix[12] ]
 // Transform = [ matrix[1] matrix[5] matrix[9]  matrix[13] ]

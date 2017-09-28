@@ -1,16 +1,18 @@
 package br.furb.polygonpaint
 
 import br.furb.polygonpaint.world.World
-import br.furb.polygonpaint.world.interactions.InteractionBase
+import br.furb.polygonpaint.world.interactions.InsertionPolygonAction
+import java.awt.BorderLayout
+import java.awt.Cursor
 import javax.media.opengl.*
 import javax.media.opengl.glu.GLU
-import javax.swing.*
-import java.awt.*
+import javax.swing.JFrame
+import javax.swing.WindowConstants
 
 
 class PolygonPaint : JFrame(), GLEventListener {
 
-    var world : World = World()
+    var world: World = World()
 
     init {
 
@@ -28,7 +30,8 @@ class PolygonPaint : JFrame(), GLEventListener {
         val canvas = GLCanvas(glCaps)
         add(canvas, BorderLayout.CENTER)
         canvas.addGLEventListener(this)
-        InteractionBase(world, canvas)
+
+        InsertionPolygonAction(world, canvas)
         canvas.requestFocus()
     }
 

@@ -16,6 +16,7 @@ class GraphicalObject {
     private var points: MutableList<Point4D> = ArrayList()
     private lateinit var boundingBox: BoundingBox
     private var transformation: Transformacao4D? = null
+    private var selectedPoint: Point4D? = null
 
     fun selectPolygon() {
         throw NotImplementedException()
@@ -26,7 +27,7 @@ class GraphicalObject {
     }
 
     fun drawBoundingBox() {
-        if(hasBoundingBox())
+        if (hasBoundingBox())
             boundingBox.desenharOpenGLBBox()
     }
 
@@ -44,10 +45,16 @@ class GraphicalObject {
         }
     }
 
-    fun selectedPoint() = points.last()
+    fun selectedPoint(): Point4D? {
+        return when {
+            selectedPoint != null -> selectedPoint
+            hasBoundingBox() -> points.last()
+            else -> null
+        }
+    }
 
     fun addPoint(point4D: Point4D) {
-        if(!hasBoundingBox())
+        if (!hasBoundingBox())
             boundingBox = BoundingBox(point4D)
         else
             boundingBox.atualizarBBox(point4D)
@@ -58,6 +65,21 @@ class GraphicalObject {
     private val isLineLoop = { !(points.size == 2 && points[0] == points[1]) }
     fun removeSelectedPoint() {
         points.remove(selectedPoint())
+    }
+
+    fun searchNextPoint(point: Point4D) {
+        selectedPoint = points.minBy { distancePoints(it, point) }
+    }
+
+    private fun distancePoints(pt1: Point4D, pt2: Point4D): Double {
+        return Math.pow(pt1.x - pt2.x, 2.0) + Math.pow(pt1.y - pt2.y, 2.0)
+    }
+
+    fun atualizaBBox() {
+        if(!points.isEmpty()){
+            boundingBox = BoundingBox(points.first())
+            points.forEach { boundingBox.atualizarBBox(it) }
+        }
     }
 }
 

@@ -1,10 +1,9 @@
 package br.furb.polygonpaint
 
-import br.furb.polygonpaint.world.attributes.Color
 import br.furb.polygonpaint.world.Point4D
+import br.furb.polygonpaint.world.attributes.Color
 import java.awt.event.MouseEvent
 import javax.media.opengl.GL
-
 import javax.media.opengl.glu.GLU
 
 fun gl(block: GL.() -> Unit) = GLProvider.gl.block()
@@ -34,4 +33,4 @@ fun point(block: () -> Unit) {
 fun lineLoopOrPoint(isLineLoop: () -> Boolean, block: () -> Unit) = if (isLineLoop()) lineLoop(block) else point(block)
 
 fun MouseEvent.toPoint() = Point4D(this.x.toDouble(), this.y.toDouble())
-fun MouseEvent.isRightButton() = this.button == 1
+fun MouseEvent.isLeftButton() = this.button == 1

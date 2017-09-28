@@ -4,9 +4,8 @@ import br.furb.polygonpaint.world.World
 import java.awt.event.*
 import javax.media.opengl.GLCanvas
 
-open class InteractionBase(world: World, canvas: GLCanvas) : MouseListener, MouseMotionListener, ComponentListener, KeyListener {
-    protected val World: World = world
-    protected val Canvas : GLCanvas = canvas
+open class InteractionBase(protected val world: World,
+                           protected val canvas: GLCanvas) : MouseListener, MouseMotionListener, ComponentListener, KeyListener {
 
     override fun mouseReleased(e: MouseEvent) {
     }
@@ -48,9 +47,10 @@ open class InteractionBase(world: World, canvas: GLCanvas) : MouseListener, Mous
         println(" --- keyPressed ---")
         System.out.println(e.keyCode)
 
-        when(e.keyCode){
-            // 0
-            48 -> InsertionPolygonAction(World, Canvas)
+        when (e.keyCode) {
+        // 0
+            48 -> InsertionPolygonAction(world, canvas)
+            49 -> EditablePointAction(world, canvas)
         }
     }
 
