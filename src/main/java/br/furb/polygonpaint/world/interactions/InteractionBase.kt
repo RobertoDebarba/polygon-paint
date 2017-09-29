@@ -53,6 +53,7 @@ open class InteractionBase(protected val world: World,
             49 -> EditablePointAction(world, canvas)
             50 -> SwitchPrimitiveAction(world, canvas)
             51 -> SwitchColorAcrion(world, canvas)
+            52 -> SelectPolygonAction(world, canvas)
         }
     }
 

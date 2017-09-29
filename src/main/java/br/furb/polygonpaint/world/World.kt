@@ -11,7 +11,9 @@ class World {
     private var camera: Camera = Camera(0.toDouble(), 400.toDouble(), 0.toDouble(), 400.toDouble())
     var selectedGraphicalObject: GraphicalObject
     var backgroundColor: Color = BLACK
-    private var graphicalObjects: MutableList<GraphicalObject> = ArrayList()
+    private var internalGraphicalObjects: MutableList<GraphicalObject> = ArrayList()
+    val graphicalObjects: List<GraphicalObject>
+        get() = this.internalGraphicalObjects.toList()
 
     init {
         selectedGraphicalObject = GraphicalObject()
@@ -21,12 +23,12 @@ class World {
         glu {
             gluOrtho2D(camera.left, camera.right, camera.top, camera.down)
         }
-        graphicalObjects.forEach { it.draw() }
+        internalGraphicalObjects.forEach { it.draw() }
         selectedGraphicalObject.drawBoundingBox()
     }
 
     fun addGraphicalObject(graphicalObject: GraphicalObject) {
-        graphicalObjects.add(graphicalObject)
+        internalGraphicalObjects.add(graphicalObject)
         selectedGraphicalObject = graphicalObject
     }
 }

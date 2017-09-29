@@ -78,5 +78,9 @@ class BoundingBox {
         }
     }
 
+    fun isInternal(point: Point4D): Boolean {
+        return point.x in menorX..maiorX && point.y in menorY..maiorY && point.z in menorZ..maiorZ
+    }
+
 }
 

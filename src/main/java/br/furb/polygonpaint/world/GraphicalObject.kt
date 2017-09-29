@@ -81,5 +81,52 @@ class GraphicalObject {
             points.forEach { boundingBox.atualizarBBox(it) }
         }
     }
+
+    fun isInternal(point: Point4D): Boolean {
+        if(boundingBox.isInternal(point)){
+            var intersections = 0
+            for ( i in 1 until points.size){
+                val pointOne = points[i-1]
+                val pointTwo = points[i]
+
+                if(pointIntersect(point, pointOne, pointTwo))
+                    intersections++
+            }
+            val pointOne = points[0]
+            val pointTwo = points[points.size-1]
+
+            if(pointIntersect(point, pointOne, pointTwo))
+                intersections++
+
+            if(intersections % 2 != 0)
+                return true
+        }
+
+        return false
+    }
+
+    private fun pointIntersect(point: Point4D, pointOne: Point4D, pointTwo: Point4D): Boolean {
+        val yOneMenor = pointOne.y < pointTwo.y
+        val menorY = if(yOneMenor) pointOne.y else  pointTwo.y
+        val maiorY = if(!yOneMenor) pointOne.y else  pointTwo.y
+        if(point.y in menorY..maiorY){
+            if(point.x <= pointOne.x || point.x <= pointTwo.x){
+                if(point.x <= pointOne.x && point.x <= pointTwo.x){
+                    return true
+                }
+
+                // Parece que só precisa dos cálculos pesados se o ponto clicado estiver
+                //   dentro da boundBox Criado pelos dois pontos
+                //ScanLine
+                val ti = (point.y - pointOne.y)/(pointTwo.y - pointOne.y)
+                val xi = pointOne.x + (pointTwo.x - pointOne.x)*ti
+
+                return point.x <= xi
+            }
+        }
+        return false
+
+    }
 }
+
 
