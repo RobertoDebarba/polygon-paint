@@ -48,12 +48,22 @@ open class InteractionBase(protected val world: World,
         System.out.println(e.keyCode)
 
         when (e.keyCode) {
-        // 0
+            // 0
             48 -> InsertionPolygonAction(world, canvas)
+            // 1
             49 -> EditablePointAction(world, canvas)
+            // 2
             50 -> SwitchPrimitiveAction(world, canvas)
+            // 3
             51 -> SwitchColorAcrion(world, canvas)
+            // 4
             52 -> SelectPolygonAction(world, canvas)
+            // T
+            84 -> TranslationAction(world, canvas)
+            // S
+            83 -> ScaleAction(world, canvas)
+            // R
+            82 -> ScaleAction(world, canvas)
         }
     }
 

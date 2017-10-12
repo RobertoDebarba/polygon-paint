@@ -15,7 +15,7 @@ class GraphicalObject {
     var graphicalPrimitive: GraphicalPrimitive = GraphicalPrimitive.LINE_LOOP
     private var points: MutableList<Point4D> = ArrayList()
     private lateinit var boundingBox: BoundingBox
-    private var transformation: Transformacao4D? = null
+    private var transformation: Transformacao4D = Transformacao4D()
     private var selectedPoint: Point4D? = null
 
     fun selectPolygon() {
@@ -28,7 +28,7 @@ class GraphicalObject {
 
     fun drawBoundingBox() {
         if (hasBoundingBox())
-            boundingBox.desenharOpenGLBBox()
+            useTransformation { boundingBox.desenharOpenGLBBox() }
     }
 
     private fun hasBoundingBox(): Boolean = !points.isEmpty()
@@ -39,10 +39,26 @@ class GraphicalObject {
             glPointSize(3f)
             glLineWidth(3f)
 
-            polygon(graphicalPrimitive, points.size) {
-                points.forEach { glPoint(it) }
+            useTransformation {
+                polygon(graphicalPrimitive, points.size) {
+                    points.forEach { glPoint(it) }
+                }
+
+                //////////// ATENCAO: chamar desenho dos filhos...
             }
         }
+    }
+
+    private fun useTransformation(block: () -> Unit) {
+        gl {
+            glPushMatrix()
+            glMultMatrixd(transformation.GetDate(), 0)
+        }
+        block()
+        gl {
+            glPopMatrix()
+        }
+
     }
 
     fun selectedPoint(): Point4D? {
@@ -76,29 +92,29 @@ class GraphicalObject {
     }
 
     fun atualizaBBox() {
-        if(!points.isEmpty()){
+        if (!points.isEmpty()) {
             boundingBox = BoundingBox(points.first())
             points.forEach { boundingBox.atualizarBBox(it) }
         }
     }
 
     fun isInternal(point: Point4D): Boolean {
-        if(boundingBox.isInternal(point)){
+        if (boundingBox.isInternal(point)) {
             var intersections = 0
-            for ( i in 1 until points.size){
-                val pointOne = points[i-1]
+            for (i in 1 until points.size) {
+                val pointOne = points[i - 1]
                 val pointTwo = points[i]
 
-                if(pointIntersect(point, pointOne, pointTwo))
+                if (pointIntersect(point, pointOne, pointTwo))
                     intersections++
             }
             val pointOne = points[0]
-            val pointTwo = points[points.size-1]
+            val pointTwo = points[points.size - 1]
 
-            if(pointIntersect(point, pointOne, pointTwo))
+            if (pointIntersect(point, pointOne, pointTwo))
                 intersections++
 
-            if(intersections % 2 != 0)
+            if (intersections % 2 != 0)
                 return true
         }
 
@@ -107,25 +123,53 @@ class GraphicalObject {
 
     private fun pointIntersect(point: Point4D, pointOne: Point4D, pointTwo: Point4D): Boolean {
         val yOneMenor = pointOne.y < pointTwo.y
-        val menorY = if(yOneMenor) pointOne.y else  pointTwo.y
-        val maiorY = if(!yOneMenor) pointOne.y else  pointTwo.y
-        if(point.y in menorY..maiorY){
-            if(point.x <= pointOne.x || point.x <= pointTwo.x){
-                if(point.x <= pointOne.x && point.x <= pointTwo.x){
+        val menorY = if (yOneMenor) pointOne.y else pointTwo.y
+        val maiorY = if (!yOneMenor) pointOne.y else pointTwo.y
+        if (point.y in menorY..maiorY) {
+            if (point.x <= pointOne.x || point.x <= pointTwo.x) {
+                if (point.x <= pointOne.x && point.x <= pointTwo.x) {
                     return true
                 }
 
                 // Parece que só precisa dos cálculos pesados se o ponto clicado estiver
                 //   dentro da boundBox Criado pelos dois pontos
                 //ScanLine
-                val ti = (point.y - pointOne.y)/(pointTwo.y - pointOne.y)
-                val xi = pointOne.x + (pointTwo.x - pointOne.x)*ti
+                val ti = (point.y - pointOne.y) / (pointTwo.y - pointOne.y)
+                val xi = pointOne.x + (pointTwo.x - pointOne.x) * ti
 
                 return point.x <= xi
             }
         }
         return false
 
+    }
+
+    fun translate(tx: Double, ty: Double, tz: Double) {
+        val matrizTranslate = Transformacao4D()
+        matrizTranslate.atribuirTranslacao(tx, ty, tz)
+        transformation = matrizTranslate.transformMatrix(transformation)
+    }
+
+    fun scale(proportion : Double){
+        var matrizTmp = Transformacao4D()
+
+        boundingBox.processarCentroBBox()
+        var pontoApoio = transformation.transformPoint(boundingBox.centro.inverted())
+
+        val matrizTmpTranslacao = Transformacao4D()
+        matrizTmpTranslacao.atribuirTranslacao(pontoApoio.x, pontoApoio.y, pontoApoio.z)
+        matrizTmp = matrizTmpTranslacao.transformMatrix(matrizTmp)
+
+        val matrizTmpEscala = Transformacao4D()
+        matrizTmpEscala.atribuirEscala(proportion, proportion, 1.0)
+        matrizTmp = matrizTmpEscala.transformMatrix(matrizTmp)
+
+        pontoApoio = pontoApoio.inverted()
+        val matrizTmpTranslacaoInversa = Transformacao4D()
+        matrizTmpTranslacaoInversa.atribuirTranslacao(pontoApoio.x, pontoApoio.y, pontoApoio.z)
+        matrizTmp = matrizTmpTranslacaoInversa.transformMatrix(matrizTmp)
+
+        transformation = matrizTmp.transformMatrix(transformation)
     }
 }
 
