@@ -63,7 +63,7 @@ open class InteractionBase(protected val world: World,
             // S
             83 -> ScaleAction(world, canvas)
             // R
-            82 -> ScaleAction(world, canvas)
+            82 -> RotationAction(world, canvas)
         }
     }
 

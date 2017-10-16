@@ -7,6 +7,7 @@ import br.furb.polygonpaint.polygon
 import br.furb.polygonpaint.world.attributes.Color
 import br.furb.polygonpaint.world.attributes.Color.WHITE
 import br.furb.polygonpaint.world.attributes.GraphicalPrimitive
+import com.sun.xml.internal.ws.addressing.EndpointReferenceUtil.transform
 import sun.reflect.generics.reflectiveObjects.NotImplementedException
 import java.util.*
 
@@ -151,6 +152,22 @@ class GraphicalObject {
     }
 
     fun scale(proportion : Double){
+        transformWithCenterBBox {
+            val matrizTmpEscala = Transformacao4D()
+            matrizTmpEscala.atribuirEscala(proportion, proportion, 1.0)
+            return@transformWithCenterBBox matrizTmpEscala
+        }
+    }
+
+    fun rotation(radians : Double){
+        transformWithCenterBBox {
+            val matrizTmpEscala = Transformacao4D()
+            matrizTmpEscala.atribuirRotacaoZ(radians)
+            return@transformWithCenterBBox matrizTmpEscala
+        }
+    }
+
+    private fun transformWithCenterBBox(block: () -> Transformacao4D) {
         var matrizTmp = Transformacao4D()
 
         boundingBox.processarCentroBBox()
@@ -160,9 +177,7 @@ class GraphicalObject {
         matrizTmpTranslacao.atribuirTranslacao(pontoApoio.x, pontoApoio.y, pontoApoio.z)
         matrizTmp = matrizTmpTranslacao.transformMatrix(matrizTmp)
 
-        val matrizTmpEscala = Transformacao4D()
-        matrizTmpEscala.atribuirEscala(proportion, proportion, 1.0)
-        matrizTmp = matrizTmpEscala.transformMatrix(matrizTmp)
+        matrizTmp = block().transformMatrix(matrizTmp)
 
         pontoApoio = pontoApoio.inverted()
         val matrizTmpTranslacaoInversa = Transformacao4D()
