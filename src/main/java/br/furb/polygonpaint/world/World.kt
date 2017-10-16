@@ -31,4 +31,10 @@ class World {
         internalGraphicalObjects.add(graphicalObject)
         selectedGraphicalObject = graphicalObject
     }
+
+    fun deleteGraphicalObject(child: GraphicalObject) {
+        if(!internalGraphicalObjects.remove(child)){
+            internalGraphicalObjects.forEach { it.removeChild(child) }
+        }
+    }
 }

@@ -18,6 +18,7 @@ class GraphicalObject {
     private lateinit var boundingBox: BoundingBox
     private var transformation: Transformacao4D = Transformacao4D()
     private var selectedPoint: Point4D? = null
+    private var children: MutableList<GraphicalObject> = ArrayList()
 
     fun selectPolygon() {
         throw NotImplementedException()
@@ -45,7 +46,7 @@ class GraphicalObject {
                     points.forEach { glPoint(it) }
                 }
 
-                //////////// ATENCAO: chamar desenho dos filhos...
+                children.forEach { it.draw() }
             }
         }
     }
@@ -185,6 +186,16 @@ class GraphicalObject {
         matrizTmp = matrizTmpTranslacaoInversa.transformMatrix(matrizTmp)
 
         transformation = matrizTmp.transformMatrix(transformation)
+    }
+
+    fun addChild(child: GraphicalObject) {
+        children.add(child)
+    }
+
+    fun removeChild(child: GraphicalObject) {
+        if(!children.remove(child)){
+            children.forEach { it.removeChild(child) }
+        }
     }
 }
 

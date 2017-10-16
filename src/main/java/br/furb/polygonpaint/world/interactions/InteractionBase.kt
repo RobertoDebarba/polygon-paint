@@ -58,6 +58,8 @@ open class InteractionBase(protected val world: World,
             51 -> SwitchColorAcrion(world, canvas)
             // 4
             52 -> SelectPolygonAction(world, canvas)
+            // 5
+            53 -> AssociateChildAction(world, canvas)
             // T
             84 -> TranslationAction(world, canvas)
             // S
