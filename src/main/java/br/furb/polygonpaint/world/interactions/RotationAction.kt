@@ -11,9 +11,9 @@ class RotationAction(world: World, canvas: GLCanvas) : InteractionBase(world, ca
 
         when (e.keyCode) {
         // right
-            39 -> rotation(2.0)
+            39 -> rotation(.5)
         // left
-            37 -> rotation(-2.0)
+            37 -> rotation(-.5)
         }
 
         super.keyPressed(e)

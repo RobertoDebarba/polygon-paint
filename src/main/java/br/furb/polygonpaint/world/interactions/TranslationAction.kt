@@ -8,38 +8,23 @@ import javax.media.opengl.GLCanvas
 class TranslationAction(world: World, canvas: GLCanvas) : InteractionBase(world, canvas) {
 
     override fun keyPressed(e: KeyEvent) {
-
+        val move = 5.0
         when (e.keyCode) {
             // right
-            39 -> translationRight()
+            39 -> translation(move, 0.0, 0.0)
             // left
-            37 -> translationLeft()
+            37 -> translation(-move, 0.0, 0.0)
             // up
-            38 -> translationUp()
+            38 -> translation(0.0, -move, 0.0)
             // down
-            40 -> translationDown()
+            40 -> translation(0.0, move, 0.0)
         }
 
         super.keyPressed(e)
     }
 
-    private fun translationLeft() {
-        world.selectedGraphicalObject.translate(-2.0, 0.0, 0.0)
-        GLProvider.glDrawable.display()
-    }
-
-    private fun translationRight() {
-        world.selectedGraphicalObject.translate(2.0, 0.0, 0.0)
-        GLProvider.glDrawable.display()
-    }
-
-    private fun translationUp() {
-        world.selectedGraphicalObject.translate(0.0, -2.0, 0.0)
-        GLProvider.glDrawable.display()
-    }
-
-    private fun translationDown() {
-        world.selectedGraphicalObject.translate(0.0, 2.0, 0.0)
+    private fun translation(tx: Double, ty : Double, tz :Double) {
+        world.selectedGraphicalObject.translate(tx, ty, tz)
         GLProvider.glDrawable.display()
     }
 }
