@@ -8,6 +8,10 @@ import javax.media.opengl.GLCanvas
 
 class AssociateChildAction(world: World, canvas: GLCanvas) : InteractionBase(world, canvas) {
 
+    /**
+     * Caso ache algum poligono no local selecionado adiciona o poligono selecionado anteriormente
+     * como filho do novo poligono selecionado
+     */
     override fun mousePressed(e: MouseEvent) {
         val graphicalObject = world.graphicalObjects.firstOrNull {
             it.isInternal(e.toPoint())

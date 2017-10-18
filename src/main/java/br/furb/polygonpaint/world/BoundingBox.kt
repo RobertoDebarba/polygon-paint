@@ -38,10 +38,16 @@ class BoundingBox {
         processarCentroBBox()
     }
 
+    /**
+     * Atualiza as informações da BoundingBox com relação ao ponto de parametro
+     */
     fun atualizarBBox(point: Point4D) {
         atualizarBBox(point.x, point.y, point.z)
     }
 
+    /**
+     * Atualiza as informações da BoundingBox com relação aos eixos de parametro
+     */
     fun atualizarBBox(x: Double, y: Double, z: Double) {
         if (x < menorX)
             menorX = x
@@ -60,12 +66,18 @@ class BoundingBox {
         }
     }
 
+    /**
+     * Atualiza o Field centro da BoundingBox
+     */
     fun processarCentroBBox() {
         centro.x = (maiorX + menorX) / 2
         centro.y = (maiorY + menorY) / 2
         centro.z = (maiorZ + menorZ) / 2
     }
 
+    /**
+     * Desenha a BoundingBox em vermelho
+     */
     fun desenharOpenGLBBox() {
         gl {
             glColor(RED)
@@ -78,6 +90,9 @@ class BoundingBox {
         }
     }
 
+    /**
+     * Verifica se o ponto está dentro da BoundingBox
+     */
     fun isInternal(point: Point4D): Boolean {
         return point.x in menorX..maiorX && point.y in menorY..maiorY && point.z in menorZ..maiorZ
     }

@@ -10,12 +10,16 @@ import javax.media.opengl.GLCanvas
 
 class InsertionPolygonAction(world: World, canvas: GLCanvas) : InteractionBase(world, canvas) {
 
-    private var _graphicalObject: GraphicalObject? = null
+    private var graphicalObject: GraphicalObject? = null
 
+    /**
+     * Garante que o Objeto já está criado
+     * Caso não esteja criar, adicionar no mundo e repitir o ponto.
+     */
     private fun ensureGraphicalObject(block: () -> Unit) {
-        if (_graphicalObject == null) {
+        if (graphicalObject == null) {
             val graphicalObject = GraphicalObject()
-            _graphicalObject = graphicalObject
+            this.graphicalObject = graphicalObject
             world.addGraphicalObject(graphicalObject)
             block()
             graphicalObject.addPoint(graphicalObject.selectedPoint()!!.copy())
@@ -23,10 +27,14 @@ class InsertionPolygonAction(world: World, canvas: GLCanvas) : InteractionBase(w
             block()
     }
 
+    /**
+     * A cada click para o lado direito do mouse adicionar um ponto para o poligono
+     * A cada click para o lado esquerdo termina de dezenhar o poligono
+     */
     override fun mouseClicked(e: MouseEvent) {
         if (e.isLeftButton()) {
             ensureGraphicalObject {
-                _graphicalObject?.addPoint(e.toPoint())
+                graphicalObject?.addPoint(e.toPoint())
             }
         } else {
             world.selectedGraphicalObject.removeSelectedPoint()
@@ -35,9 +43,12 @@ class InsertionPolygonAction(world: World, canvas: GLCanvas) : InteractionBase(w
         GLProvider.glDrawable.display()
     }
 
+    /**
+     * Enquanto está adicionado um poligono deve manter o rastro em tela
+     */
     override fun mouseMoved(e: MouseEvent) {
-        if (_graphicalObject != null) {
-            _graphicalObject?.selectedPoint()?.moveTo(e.toPoint())
+        if (graphicalObject != null) {
+            graphicalObject?.selectedPoint()?.moveTo(e.toPoint())
             GLProvider.glDrawable.display()
         }
     }

@@ -7,6 +7,9 @@ import javax.media.opengl.GLCanvas
 
 class ScaleAction(world: World, canvas: GLCanvas) : InteractionBase(world, canvas) {
 
+    /**
+     * Atribui a escala para a proporção de dobro ou metade
+     */
     override fun keyPressed(e: KeyEvent) {
 
         when (e.keyCode) {

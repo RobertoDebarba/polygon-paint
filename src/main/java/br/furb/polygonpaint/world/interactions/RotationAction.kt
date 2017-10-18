@@ -7,6 +7,9 @@ import javax.media.opengl.GLCanvas
 
 class RotationAction(world: World, canvas: GLCanvas) : InteractionBase(world, canvas) {
 
+    /**
+     * Atribui rotação no eixo Z com meio radiano
+     */
     override fun keyPressed(e: KeyEvent) {
 
         when (e.keyCode) {

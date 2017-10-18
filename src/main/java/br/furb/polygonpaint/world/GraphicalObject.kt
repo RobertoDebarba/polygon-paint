@@ -1,9 +1,6 @@
 package br.furb.polygonpaint.world
 
-import br.furb.polygonpaint.gl
-import br.furb.polygonpaint.glColor
-import br.furb.polygonpaint.glPoint
-import br.furb.polygonpaint.polygon
+import br.furb.polygonpaint.*
 import br.furb.polygonpaint.world.attributes.Color
 import br.furb.polygonpaint.world.attributes.Color.WHITE
 import br.furb.polygonpaint.world.attributes.GraphicalPrimitive
@@ -20,14 +17,9 @@ class GraphicalObject {
     private var selectedPoint: Point4D? = null
     private var children: MutableList<GraphicalObject> = ArrayList()
 
-    fun selectPolygon() {
-        throw NotImplementedException()
-    }
-
-    fun removePolygon() {
-        throw NotImplementedException()
-    }
-
+    /**
+     * Se houver BoundingBox Desenha respeitando a matriz de transformação
+     */
     fun drawBoundingBox() {
         if (hasBoundingBox())
             useTransformation { boundingBox.desenharOpenGLBBox() }
@@ -35,6 +27,9 @@ class GraphicalObject {
 
     private fun hasBoundingBox(): Boolean = !points.isEmpty()
 
+    /**
+     * Desenha o Objeto e seus objetos filhos no grafo de cena
+     */
     fun draw() {
         gl {
             glColor(color)
@@ -63,6 +58,9 @@ class GraphicalObject {
 
     }
 
+    /**
+     * Retorna o Ponto selecionado
+     */
     fun selectedPoint(): Point4D? {
         return when {
             selectedPoint != null -> selectedPoint
@@ -71,6 +69,9 @@ class GraphicalObject {
         }
     }
 
+    /**
+     * Adiciona um ponto na lista de pontos respeitando as alterações necessarias na BoundingBox
+     */
     fun addPoint(point4D: Point4D) {
         if (!hasBoundingBox())
             boundingBox = BoundingBox(point4D)
@@ -80,11 +81,17 @@ class GraphicalObject {
         points.add(point4D)
     }
 
-    private val isLineLoop = { !(points.size == 2 && points[0] == points[1]) }
+    /**
+     * Remove o Ponto Selecionado
+     */
     fun removeSelectedPoint() {
         points.remove(selectedPoint())
+        refreshBBox()
     }
 
+    /**
+     * Atribui como ponto selecionado o ponto mais proximo do ponto de parametro
+     */
     fun searchNextPoint(point: Point4D) {
         selectedPoint = points.minBy { distancePoints(it, point) }
     }
@@ -93,13 +100,16 @@ class GraphicalObject {
         return Math.pow(pt1.x - pt2.x, 2.0) + Math.pow(pt1.y - pt2.y, 2.0)
     }
 
-    fun atualizaBBox() {
+    private fun refreshBBox() {
         if (!points.isEmpty()) {
             boundingBox = BoundingBox(points.first())
             points.forEach { boundingBox.atualizarBBox(it) }
         }
     }
 
+    /**
+     * Função retorna dizendo se o ponto de parametro está dento do Objeto
+     */
     fun isInternal(point: Point4D): Boolean {
         if (boundingBox.isInternal(point)) {
             var intersections = 0
@@ -146,12 +156,18 @@ class GraphicalObject {
 
     }
 
+    /**
+     * Atribui translação passada como parametro para a matriz de transformações
+     */
     fun translate(tx: Double, ty: Double, tz: Double) {
         val matrizTranslate = Transformacao4D()
         matrizTranslate.atribuirTranslacao(tx, ty, tz)
         transformation = matrizTranslate.transformMatrix(transformation)
     }
 
+    /**
+     * Atribui escala passada como parametro para a matriz de transformações
+     */
     fun scale(proportion : Double){
         transformWithCenterBBox {
             val matrizTmpEscala = Transformacao4D()
@@ -160,6 +176,9 @@ class GraphicalObject {
         }
     }
 
+    /**
+     * Atribui rotação passada como parametro para a matriz de transformações
+     */
     fun rotation(radians : Double){
         transformWithCenterBBox {
             val matrizTmpEscala = Transformacao4D()
@@ -188,13 +207,27 @@ class GraphicalObject {
         transformation = matrizTmp.transformMatrix(transformation)
     }
 
+    /**
+     * Adiciona o Objeto de parametro como filho deste objeto
+     */
     fun addChild(child: GraphicalObject) {
         children.add(child)
     }
 
+    /**
+     * Remove o Objeto de parametro da lista de filhos deste objeto
+     */
     fun removeChild(child: GraphicalObject) {
         if(!children.remove(child)){
             children.forEach { it.removeChild(child) }
+        }
+    }
+
+    fun sumValueToPoint(selectedPoint: Point4D, diffSum: Point4D) {
+        val point = points.firstOrNull { selectedPoint == it }
+        if(point != null){
+            point.sumTo(diffSum)
+            refreshBBox()
         }
     }
 }

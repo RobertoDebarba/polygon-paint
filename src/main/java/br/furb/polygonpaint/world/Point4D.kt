@@ -18,12 +18,18 @@ data class Point4D(var x: Double,
         }
     }
 
+    /**
+     * Retorna uma copia invertida do ponto atual
+     */
     fun inverted(): Point4D {
         val point = this.copy()
         Point4D.invertPoint(point)
         return point
     }
 
+    /**
+     * Move o ponto atual para a posição do ponto de parametro
+     */
     fun moveTo(point: Point4D) {
         x = point.x
         y = point.y
@@ -31,6 +37,9 @@ data class Point4D(var x: Double,
         w = point.w
     }
 
+    /**
+     * Translada o ponto atual com o ponto de parametro
+     */
     fun sumTo(point: Point4D) {
         x += point.x
         y += point.y
@@ -38,6 +47,9 @@ data class Point4D(var x: Double,
         w += point.w
     }
 
+    /**
+     * Pega a diferença de eixos entre dois pontos
+     */
     fun diffPoints(pto2: Point4D): Point4D {
         return Point4D(
                 x - pto2.x,

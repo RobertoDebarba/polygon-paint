@@ -14,6 +14,9 @@ class PolygonPaint : JFrame(), GLEventListener {
 
     var world: World = World()
 
+    /**
+     * Na inicialização do Formulario Cria o formulario com um canvas e inicializa com a ação de iserir poligono
+     */
     init {
 
         title = "Polygon Paint"
@@ -35,6 +38,9 @@ class PolygonPaint : JFrame(), GLEventListener {
         canvas.requestFocus()
     }
 
+    /**
+     * Inicializa as variaveis do OpenGl
+     */
     override fun init(glAutoDrawable: GLAutoDrawable) {
         GLProvider.glDrawable = glAutoDrawable
         GLProvider.gl = glAutoDrawable.gl
@@ -43,6 +49,9 @@ class PolygonPaint : JFrame(), GLEventListener {
         GLProvider.gl.glClearColor(world.backgroundColor.red, world.backgroundColor.green, world.backgroundColor.blue, 1.0f)
     }
 
+    /**
+     * Cada solicitação de atualização de frame do OpenGl redesenha o mundo
+     */
     override fun display(glAutoDrawable: GLAutoDrawable) {
         GLProvider.gl.glClear(GL.GL_COLOR_BUFFER_BIT)
         GLProvider.gl.glMatrixMode(GL.GL_MODELVIEW)
@@ -63,6 +72,9 @@ class PolygonPaint : JFrame(), GLEventListener {
 
 }
 
+/**
+ * Função de inicialização do kotlin só chama o FORM
+ */
 fun main(args: Array<String>) {
     PolygonPaint().isVisible = true
 }

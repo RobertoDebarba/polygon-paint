@@ -43,6 +43,9 @@ open class InteractionBase(protected val world: World,
     override fun keyTyped(e: KeyEvent) {
     }
 
+    /**
+     * Posiciona na Ação precionada
+     */
     override fun keyPressed(e: KeyEvent) {
         println(" --- keyPressed ---")
         System.out.println(e.keyCode)
@@ -55,7 +58,7 @@ open class InteractionBase(protected val world: World,
             // 2
             50 -> SwitchPrimitiveAction(world, canvas)
             // 3
-            51 -> SwitchColorAcrion(world, canvas)
+            51 -> SwitchColorAction(world, canvas)
             // 4
             52 -> SelectPolygonAction(world, canvas)
             // 5
@@ -72,6 +75,9 @@ open class InteractionBase(protected val world: World,
     override fun keyReleased(e: KeyEvent) {
     }
 
+    /**
+     * Torna esse o novo listner do canvas
+     */
     init {
         canvas.mouseListeners.forEach { canvas.removeMouseListener(it) }
         canvas.addMouseListener(this)

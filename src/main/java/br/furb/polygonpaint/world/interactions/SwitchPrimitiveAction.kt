@@ -8,6 +8,9 @@ import javax.media.opengl.GLCanvas
 
 class SwitchPrimitiveAction (world: World, canvas: GLCanvas) : InteractionBase(world, canvas) {
 
+    /**
+     * A cada click do mouse alterna entre as primitivas de linhas
+     */
     override fun mousePressed(e: MouseEvent) {
         if(world.selectedGraphicalObject.graphicalPrimitive == GraphicalPrimitive.LINE_LOOP)
             world.selectedGraphicalObject.graphicalPrimitive =  GraphicalPrimitive.LINE_STRIP

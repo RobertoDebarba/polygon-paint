@@ -9,6 +9,9 @@ import javax.media.opengl.GLCanvas
 
 class SelectPolygonAction(world: World, canvas: GLCanvas) : InteractionBase(world, canvas) {
 
+    /**
+     * Percorre a lista de objetos, o primeiro que achar se torna o objeto selecionado
+     */
     override fun mousePressed(e: MouseEvent) {
         val graphicalObject = world.graphicalObjects.firstOrNull {
             it.isInternal(e.toPoint())

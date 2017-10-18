@@ -7,6 +7,9 @@ import javax.media.opengl.GLCanvas
 
 class TranslationAction(world: World, canvas: GLCanvas) : InteractionBase(world, canvas) {
 
+    /**
+     * Cada tecla selecionada Verifica se deve transladar o objeto e o faz em 5 posições
+     */
     override fun keyPressed(e: KeyEvent) {
         val move = 5.0
         when (e.keyCode) {
