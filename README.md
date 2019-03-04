@@ -43,7 +43,7 @@ A simple paint tool to draw polygons. Made with OpenGL library on Kotlin.
 ## Authors
 
 * [Roberto Luiz Debarba](https://github.com/RobertoDebarba)
-* [Matheus Adriano Pereira](https://github.com/Itatakaru)
+* [Matheus Adriano Pereira](https://github.com/matheusPereiraKrumm)
 * [Matheus Hoeltgebaum Pereira](https://github.com/matheushoeltgebaum)
 
 ## License
